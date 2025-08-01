@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || "Insurance Policies" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="bg-gray-100 text-gray-900">
+    <!-- fixed header -->
+    <header class="fixed top-0 inset-x-0 bg-white shadow-md z-50">
+      <div class="container mx-auto px-5 py-4 flex justify-between items-center">
+        <h1 class="text-xl font-bold">
+          <%= link_to "Insurance Policies", root_path, class: "hover:underline" %>
+        </h1>
+        <nav class="flex items-center space-x-4">
+          <% if user_signed_in? %>
+            <span class="text-gray-700">Hi, <%= current_user.email %></span>
+            <%= button_to "Sign Out",
+              destroy_user_session_path,
+              method: :delete,
+              data: { confirm: "Are you sure you want to sign out?" },
+              class: "bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded" %>
+
+          <% else %>
+            <%= link_to "Sign In", new_user_session_path,
+                        class: "bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded" %>
+          <% end %>
+        </nav>
+      </div>
+    </header>
+
+    <!-- flash messages -->
+    <div class="container mx-auto px-5 mt-24">
+      <% flash.each do |type, message| %>
+        <%# map Rails flash types to Tailwind colors %>
+        <% bg, text = case type.to_sym
+             when :notice then ["bg-green-100","text-green-800"]
+             when :alert  then ["bg-red-100","text-red-800"]
+             else ["bg-yellow-100","text-yellow-800"]
+           end %>
+        <div class="<%= bg %> <%= text %> px-4 py-3 rounded mb-4">
+          <%= message %>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- main content -->
+    <main class="container mx-auto px-5 mt-6">
+      <%= yield %>
+    </main>
+  </body>
+</html>

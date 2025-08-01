@@ -1,0 +1,51 @@
+<h1 class="text-3xl font-bold mb-6">Policies</h1>
+
+<% if @policies.any? %>
+  <div class="overflow-x-auto bg-white shadow-sm rounded-lg">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
+        <tr>
+          <% ["Policy #", "Client Email", "Start Date", "End Date", "Status", "Actions"].each do |header| %>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">
+              <%= header %>
+            </th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-100">
+        <% @policies.each do |policy| %>
+          <tr class="hover:bg-gray-50">
+            <td class="px-6 py-4 whitespace-nowrap"><%= policy.policy_number %></td>
+            <td class="px-6 py-4 whitespace-nowrap"><%= policy.user.email %></td>
+            <td class="px-6 py-4 whitespace-nowrap"><%= policy.start_date %></td>
+            <td class="px-6 py-4 whitespace-nowrap"><%= policy.end_date %></td>
+            <td class="px-6 py-4 whitespace-nowrap"><%= policy.status %></td>
+            <td class="px-6 py-4 whitespace-nowrap space-x-2">
+              <%= link_to "Show", policy,
+                          class: "text-blue-600 hover:underline" %>
+              <% if can?(:edit, policy) %>
+                <%= link_to "Edit", edit_policy_path(policy),
+                            class: "text-yellow-600 hover:underline" %>
+              <% end %>
+              <% if can?(:destroy, policy) %>
+                <%= link_to "Delete", policy,
+                            method: :delete,
+                            data: { confirm: "Are you sure?" },
+                            class: "text-red-600 hover:underline" %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <p class="text-gray-500 italic">No policies found.</p>
+<% end %>
+
+<% if can?(:create, Policy) %>
+  <div class="mt-6">
+    <%= link_to "New Policy", new_policy_path,
+                class: "inline-block bg-green-600 hover:bg-green-700 text-white font-semibold px-4 py-2 rounded shadow" %>
+  </div>
+<% end %>

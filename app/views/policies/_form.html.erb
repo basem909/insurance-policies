@@ -1,0 +1,57 @@
+<%# app/views/policies/_form.html.erb %>
+<div class="bg-white shadow rounded-lg p-8">
+  <%= form_with model: policy, local: true do |f| %>
+    <% if policy.errors.any? %>
+      <div class="mb-6 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+        <p class="font-semibold">Please fix the following errors:</p>
+        <ul class="mt-2 list-disc list-inside">
+          <% policy.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <!-- Client -->
+      <div class="px-4 py-2">
+        <%= f.label :user_id, "Client", class: "block text-sm font-medium text-gray-700" %>
+        <%= f.collection_select :user_id, User.all, :id, :email,
+              { prompt: "Select a client" },
+              class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50" %>
+      </div>
+
+      <!-- Status -->
+      <div class="px-4 py-2">
+        <%= f.label :status, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.select :status,
+              Policy.statuses.keys.map { |s| [s.titleize, s] },
+              { prompt: "Select status" },
+              class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50" %>
+      </div>
+
+      <!-- Start Date -->
+      <div class="px-4 py-2">
+        <%= f.label :start_date, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.date_field :start_date,
+              class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50" %>
+      </div>
+
+      <!-- End Date -->
+      <div class="px-4 py-2">
+        <%= f.label :end_date, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.date_field :end_date,
+              class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50" %>
+      </div>
+
+    </div>
+
+    <!-- Form Actions -->
+    <div class="mt-6 flex items-center space-x-4">
+      <%= f.submit policy.new_record? ? "Create Policy" : "Update Policy",
+            class: "inline-block bg-#{policy.new_record? ? 'green' : 'blue'}-600 hover:bg-#{policy.new_record? ? 'green' : 'blue'}-700 text-white px-4 py-2 rounded" %>
+      <%= link_to "Cancel", policies_path,
+            class: "inline-block text-gray-700 hover:underline" %>
+    </div>
+  <% end %>
+</div>

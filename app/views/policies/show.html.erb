@@ -1,0 +1,48 @@
+<h1 class="text-3xl font-bold mb-6">Policy #<%= @policy.policy_number %></h1>
+
+<div class="bg-white shadow rounded-lg my-8 mx-4 p-8">
+  <dl class="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div class="px-4 py-2">
+      <dt class="text-sm font-medium text-gray-500 mb-1">Client</dt>
+      <dd class="text-lg text-gray-900">
+        <%= @policy.user&.email || @policy.user_id %>
+      </dd>
+    </div>
+
+    <div class="px-4 py-2">
+      <dt class="text-sm font-medium text-gray-500 mb-1">Start Date</dt>
+      <dd class="text-lg text-gray-900"><%= @policy.start_date %></dd>
+    </div>
+
+    <div class="px-4 py-2">
+      <dt class="text-sm font-medium text-gray-500 mb-1">End Date</dt>
+      <dd class="text-lg text-gray-900"><%= @policy.end_date %></dd>
+    </div>
+
+    <div class="px-4 py-2">
+      <dt class="text-sm font-medium text-gray-500 mb-1">Status</dt>
+      <dd class="text-lg text-gray-900"><%= @policy.status.titleize %></dd>
+    </div>
+  </dl>
+</div>
+
+<div class="mt-8 flex items-center space-x-4 mx-4 mb-8">
+  <%= link_to "← Back to Policies", policies_path,
+              class: "text-gray-700 hover:underline" %>
+
+  <% if can?(:edit, @policy) %>
+    <%= link_to "Edit Policy", edit_policy_path(@policy),
+                class: "inline-block bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-2 rounded" %>
+  <% end %>
+
+  <% if can?(:destroy, @policy) %>
+    <%= button_to "Delete Policy",
+                  @policy,
+                  method: :delete,
+                  data: { confirm: "Are you sure?" },
+                  form: { class: "inline-block" },
+                  class: "bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded" %>
+  <% end %>
+</div>
+
+
