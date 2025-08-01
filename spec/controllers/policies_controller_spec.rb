@@ -14,7 +14,7 @@ RSpec.describe PoliciesController, type: :controller do
 
       it "assigns all policies" do
         get :index
-        expect(assigns(:policies)).to match_array([other_policy, client_policy])
+        expect(assigns(:policies)).to match_array([ other_policy, client_policy ])
       end
     end
 
@@ -23,7 +23,7 @@ RSpec.describe PoliciesController, type: :controller do
 
       it "assigns all policies" do
         get :index
-        expect(assigns(:policies)).to match_array([other_policy, client_policy])
+        expect(assigns(:policies)).to match_array([ other_policy, client_policy ])
       end
     end
 
@@ -32,7 +32,7 @@ RSpec.describe PoliciesController, type: :controller do
 
       it "assigns only own policies" do
         get :index
-        expect(assigns(:policies)).to eq([client_policy])
+        expect(assigns(:policies)).to eq([ client_policy ])
       end
     end
   end
